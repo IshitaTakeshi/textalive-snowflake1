@@ -2,11 +2,11 @@ import P5 from "p5";
 import { Player, Ease } from "textalive-app-api";
 
 // 四角い地球を丸くする
-// const SONG_URL = "http://www.youtube.com/watch?v=KdNHFKTKX2s";
+const SONG_URL = "http://www.youtube.com/watch?v=KdNHFKTKX2s";
 // セカイ
 // const SONG_URL = "https://www.youtube.com/watch?v=9vyIPWBeRes";
 // グリーンライツ・セレナーデ
-const SONG_URL = "https://www.youtube.com/watch?v=XSLhsjepelI";
+// const SONG_URL = "https://www.youtube.com/watch?v=XSLhsjepelI";
 // 好き！雪！本気マジック
 // const SONG_URL = "https://www.youtube.com/watch?v=79N1O0lF0GY";
 
@@ -18,8 +18,6 @@ const player = new Player({
   },
   mediaElement: "#media",
 });
-
-let init = false;
 
 // リスナの登録 / Register listeners
 player.addListener({
@@ -77,9 +75,6 @@ new P5((p5) => {
   // キャンバスの大きさなどを計算
   const width = window.innerWidth; // Math.min(800, window.innerWidth);
   const height = window.innerHeight;  // Math.min(600, window.innerHeight);
-  const margin = 30;
-  const numChars = 10;
-  const textAreaWidth = width - margin * 2;
 
   class FallingObject {
     constructor() {
@@ -87,7 +82,7 @@ new P5((p5) => {
       this.posX = 0;
       this.posY = p5.random(-50, 0);
       this.initialangle = p5.random(0, 2 * Math.PI);
-      this.size = p5.random(2, 5);
+      this.size = p5.random(3, 7);
 
       // radius of snowflake spiral
       // chosen so the snowflakes are uniformly spread out in area
@@ -104,7 +99,7 @@ new P5((p5) => {
     }
 
     y() {
-      return this.posY < height;
+      return this.posY;
     }
   }
 
@@ -120,9 +115,8 @@ new P5((p5) => {
   class Character extends FallingObject {
     constructor(text) {
       super();
-      console.log("showing ".concat(text));
       this.text = text;
-      this.size = p5.random(20, 50);  // TODO this should be passed as the constructor argument
+      this.size = p5.random(40, 60);  // TODO this should be passed as the constructor argument
     }
 
     display() {
@@ -137,7 +131,7 @@ new P5((p5) => {
     p5.createCanvas(width, height);
     // p5.colorMode(p5.HSB, 100);
     p5.fill(240);
-    // p5.frameRate(30);
+    p5.frameRate(50);
     // p5.background(40);
     p5.noStroke();
     // p5.textFont("Noto Sans JP");
@@ -151,7 +145,7 @@ new P5((p5) => {
       return;
     }
 
-    p5.background('rgb(211, 226, 245)');
+    p5.background('rgb(137, 187, 230)');
 
     // create a random number of snowflakes each frame
     for (let i = 0; i < p5.random(5); i++) {
@@ -169,9 +163,9 @@ new P5((p5) => {
         snowflakes.splice(index, 1);
       }
     }
+    console.log("snowflake num = %d", snowflakes.length);
 
     const position = player.timer.position;  // current playback position
-    // 歌詞
     // - 再生位置より 100 [ms] 前の時点での発声文字を取得
     // - { loose: true } にすることで発声中でなければ一つ後ろの文字を取得
     let char = player.video.findChar(position - 100, { loose: true });
@@ -183,37 +177,10 @@ new P5((p5) => {
           // これ以降の文字は表示する必要がない
           break;
         }
-        if (char.startTime < position + 100) {
-          const x = ((index % numChars) + 0.5) * (textAreaWidth / numChars);
-          let transparency,
-            y = 0,
-            size = 39;
-
-          // 100 [ms] かけてフェードインしてくる
-          if (position < char.startTime) {
-            const progress = 1 - (char.startTime - position) / 100;
-            const eased = Ease.circIn(progress);
-            transparency = progress;
-            size = 39 * eased + Math.min(width, height) * (1 - eased);
-          }
-          // 160 [ms] かけてフェードアウトする
-          else if (char.endTime < position) {
-            const progress = (position - char.endTime) / 160;
-            const eased = Ease.quintIn(progress);
-            transparency = 1 - eased;
-            y = -eased * (height / 2);
-          }
-          // 発声区間中は完全に不透明
-          else {
-            transparency = 1;
-          }
-
-          p5.fill(0, 0, 100, transparency * 100);
-          p5.textSize(size);
-          p5.text(char.text, margin + x, height / 2 + y);
+        if (char.startTime - 120 < position && position < char.startTime - 100) {
+            snowflakes.push(new Character(char.text));
         }
         char = char.next;
-        index++;
       }
     }
   };
