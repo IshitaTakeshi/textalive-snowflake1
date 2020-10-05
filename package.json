@@ -6,10 +6,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html --out-dir dev",
-    "build": "parcel build src/index.html --public-url ./ --out-dir dist --no-source-maps",
-    "clean": "del-cli .cache dev dist",
-    "predeploy": "rm -rf dist && parcel build index.html --public-url YOUR_REPO_NAME",
-    "deploy": "gh-pages -d dist"
+    "build": "parcel build src/index.html --public-url ./ --out-dir docs --no-source-maps",
+    "clean": "del-cli .cache dev docs",
+    "predeploy": "rm -rf docs && parcel build src/index.html --public-url https://ishitatakeshi.github.io/textalive-snowflake1/ --out-dir docs",
+    "deploy": "gh-pages -d docs"
   },
   "keywords": [
     "textalive"
