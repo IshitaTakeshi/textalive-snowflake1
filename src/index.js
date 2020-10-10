@@ -145,17 +145,12 @@ player.addListener({
   },
 
   onVideoReady: () => {
-    if (!player.app.managed) {
-      document.querySelector("#message").className = "active";
-    }
+    document.querySelector("#message").className = "active";
     document.querySelector("#overlay").className = "inactive";
   },
 
   onPlay: () => {
     document.querySelector("#message").className = "inactive";
-    if (!player.app.managed) {
-      document.querySelector("#control").className = "";
-    }
     console.log("player.onPlay");
   },
 

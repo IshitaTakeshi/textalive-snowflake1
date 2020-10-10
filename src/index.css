@@ -36,6 +36,17 @@ canvas {
   z-index: 300;
 }
 
+#message {
+  position: absolute;
+  top: 10;
+  left: 20;
+  background: rgba(0, 0, 0, 0.0);
+  color: rgba(255,255,255);
+  display: flex;
+  align-items: center;
+  z-index: 300;
+}
+
 #overlay > * {
   margin: auto;
 }
