@@ -56,7 +56,7 @@ function rewindVideo() {
 }
 
 function randomTextSizeForPC() {
-  return p5.random(width * 0.04, width * 0.06);
+  return p5.random(width * 0.04, width * 0.05);
 }
 
 function randomTextSizeForMobile() {
