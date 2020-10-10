@@ -170,10 +170,6 @@ new P5((p5) => {
     p5.noStroke();
     // p5.textFont("Noto Sans JP");
     // p5.textAlign(p5.CENTER, p5.CENTER);
-  };
-
-  // ビートにあわせて背景を、発声にあわせて歌詞を表示
-  p5.draw = () => {
     const buttonY = 20;
     let buttonX = 20;
     playButton = createButton('play', buttonX, buttonY, playVideo);
@@ -181,7 +177,10 @@ new P5((p5) => {
     pauseButton = createButton('pause', buttonX, buttonY, pauseVideo);
     buttonX = pauseButton.x + pauseButton.width + 50;
     rewindButton = createButton('rewind', buttonX, buttonY, rewindVideo);
+  };
 
+  // ビートにあわせて背景を、発声にあわせて歌詞を表示
+  p5.draw = () => {
     // プレイヤーが準備できていなかったら何もしない
     if (!player || !player.video) {
       return;
