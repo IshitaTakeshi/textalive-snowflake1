@@ -88,7 +88,7 @@ const sketch = (p5) => {
     p5.textAlign(p5.CENTER, p5.CENTER);
 
     // Only for debug
-    jumpToStartButton = createButton('jump', 20, height - 50, jumpToStart);
+    // jumpToStartButton = createButton('jump', 20, height - 50, jumpToStart);
   };
 
   // ビートにあわせて背景を、発声にあわせて歌詞を表示
