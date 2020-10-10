@@ -7,3 +7,4 @@ var e;!function(t,n){if("object"==typeof exports&&"object"==typeof module)module
 var global = arguments[3];
 var e=arguments[3];!function(e){"use strict";var t=require("./api.js").default;e.XMLHttpRequest||(e.XMLHttpRequest=require("w3c-xmlhttprequest").XMLHttpRequest),"process"in e&&(module.exports=t),e.Songle=t}((this||0).self||e);
 },{"./api.js":"sQA1","w3c-xmlhttprequest":"I2tx"}]},{},["CWp8"], null)
+//# sourceMappingURL=https://ishitatakeshi.github.io/textalive-snowflake1/main.23db3b5c.js.map
