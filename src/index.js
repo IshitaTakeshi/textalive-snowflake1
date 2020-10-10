@@ -55,8 +55,10 @@ function rewindVideo() {
   player.video && player.requestMediaSeek(0);
 }
 
+const MAX_CHAR_SIZE_PC = 55;
+
 function randomTextSizeForPC() {
-  return p5.random(width * 0.04, width * 0.05);
+  return p5.min(p5.random(width * 0.04, width * 0.05), MAX_CHAR_SIZE_PC);
 }
 
 function randomTextSizeForMobile() {
