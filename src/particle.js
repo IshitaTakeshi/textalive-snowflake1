@@ -43,10 +43,10 @@ export class SnowFlake extends FallingObject {
 }
 
 export class Character extends FallingObject {
-  constructor(p5, text) {
+  constructor(p5, text, size) {
     super(p5);
     this.text = text;
-    this.size = this.p5.random(40, 60);  // TODO this should be passed as the constructor argument
+    this.size = size;
   }
 
   display() {
