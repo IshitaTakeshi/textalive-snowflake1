@@ -98,14 +98,6 @@ function rewindVideo() {
 new P5((p5) => {
   let playButton, pauseButton, rewindButton;
 
-  function createButton(name, x, y, callback) {
-    let button = p5.createButton(name);
-    button.position(x, y);
-    button.mousePressed(callback);
-    button.style('font-size', '20px');
-    return button;
-  }
-
   // キャンバスを作成
   p5.setup = () => {
     p5.createCanvas(width, height);
@@ -116,13 +108,6 @@ new P5((p5) => {
     p5.noStroke();
     // p5.textFont("Noto Sans JP");
     // p5.textAlign(p5.CENTER, p5.CENTER);
-    const buttonY = 20;
-    let buttonX = 20;
-    playButton = createButton('play', buttonX, buttonY, playVideo);
-    buttonX = playButton.x + playButton.width + 50;
-    pauseButton = createButton('pause', buttonX, buttonY, pauseVideo);
-    buttonX = pauseButton.x + pauseButton.width + 50;
-    rewindButton = createButton('rewind', buttonX, buttonY, rewindVideo);
   };
 
   // ビートにあわせて背景を、発声にあわせて歌詞を表示
