@@ -31,11 +31,6 @@ player.addListener({
     }
   },
 
-  onTextLoad: (text) => {
-    // Webフォントを確実に読み込むためDOM要素に歌詞を貼り付ける
-    document.querySelector("#dummy").textContent = text;
-  },
-
   onVideoReady: () => {
     if (!player.app.managed) {
       document.querySelector("#message").className = "active";
@@ -65,12 +60,17 @@ player.addListener({
     }
     console.log("player.onStop");
   },
+
+  onTimerReady: () => {
+    let w = player.video.firstWord;
+    while(w && w.next) {
+      w.animate = animatePhrase;
+      w = w.next;
+    }
+  }
 });
 
-// 再生終了後に表示する巻き戻しボタン
-document.querySelector("#rewind").addEventListener("click", () => {
-  player.requestPlay();
-});
+let snowflakes = []; // array to hold snowflake objects
 
 // This class refers to the snowflake example
 // https://p5js.org/examples/simulate-snowflakes.html
@@ -104,7 +104,6 @@ class FallingObject {
   }
 }
 
-// snowflake class
 class SnowFlake extends FallingObject {
   display() {
     this.p5.fill(this.p5.color(255, 255, 255));
@@ -127,10 +126,40 @@ class Character extends FallingObject {
   }
 }
 
-let snowflakes = []; // array to hold snowflake objects
+function animatePhrase(now, unit) {
+  if (unit.contains(now)) {
+    snowflakes.push(new Character(p5, unit.text));
+  }
+}
+
+function playVideo() {
+  console.log("play button is clicked");
+  player.video && player.requestPlay();
+}
+
+function pauseVideo() {
+  console.log("pause button is clicked");
+  player.video && player.requestPause();
+}
+
+function rewindVideo() {
+  console.log("rewind button is clicked");
+  player.video && player.requestMediaSeek(0);
+}
+
 
 // p5.js を初期化
 new P5((p5) => {
+  let playButton, pauseButton, rewindButton;
+
+  function createButton(name, x, y, callback) {
+    let button = p5.createButton(name);
+    button.position(x, y);
+    button.mousePressed(callback);
+    button.style('font-size', '20px');
+    return button;
+  }
+
   // キャンバスを作成
   p5.setup = () => {
     p5.createCanvas(width, height);
@@ -145,6 +174,14 @@ new P5((p5) => {
 
   // ビートにあわせて背景を、発声にあわせて歌詞を表示
   p5.draw = () => {
+    const buttonY = 20;
+    let buttonX = 20;
+    playButton = createButton('play', buttonX, buttonY, playVideo);
+    buttonX = playButton.x + playButton.width + 50;
+    pauseButton = createButton('pause', buttonX, buttonY, pauseVideo);
+    buttonX = pauseButton.x + pauseButton.width + 50;
+    rewindButton = createButton('rewind', buttonX, buttonY, rewindVideo);
+
     // プレイヤーが準備できていなかったら何もしない
     if (!player || !player.video) {
       return;
@@ -168,7 +205,6 @@ new P5((p5) => {
         snowflakes.splice(index, 1);
       }
     }
-    console.log("snowflake num = %d", snowflakes.length);
 
     const position = player.timer.position;  // current playback position
     // - 再生位置より 100 [ms] 前の時点での発声文字を取得
