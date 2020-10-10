@@ -100,8 +100,10 @@ const sketch = (p5) => {
 
     p5.background('rgb(137, 187, 230)');
 
-    // create a random number of snowflakes each frame
-    snowflakes.push(new SnowFlake(p5)); // append snowflake object
+    let nFlakesPerFrame = IS_MOBILE ? 1 : 3;
+    for(let i = 0; i < nFlakesPerFrame; i++) {
+      snowflakes.push(new SnowFlake(p5));
+    }
 
     let time = p5.frameCount / 60; // update time
     // loop through snowflakes with a for..of loop
