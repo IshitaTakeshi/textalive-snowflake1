@@ -17,7 +17,7 @@ export class FallingObject {
 
     // radius of snowflake spiral
     // chosen so the snowflakes are uniformly spread out in area
-    this.radius = Math.sqrt(this.p5.random(Math.pow(width / 2, 2)));
+    this.radius = this.p5.random(width / 2);
   }
   update(time) {
     // x position follows a circle
